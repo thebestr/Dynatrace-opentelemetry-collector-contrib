@@ -9,6 +9,7 @@ import (
 	"github.com/MaCriMora/Dynatrace-opentelemetry-collector-contrib/receiver/dynatracereceiver"
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
+	"go.opentelemetry.io/collector/config/configtls"
 	"go.opentelemetry.io/collector/consumer"
 	"go.opentelemetry.io/collector/pdata/pmetric"
 )
@@ -46,6 +47,11 @@ func main() {
 	resolution := viper.GetString("receivers.dynatrace.resolution")
 	from := viper.GetString("receivers.dynatrace.from")
 	to := viper.GetString("receivers.dynatrace.to")
+	var tlsSettings configtls.ClientConfig
+	if err := viper.UnmarshalKey("receivers.dynatrace.tls_settings", &tlsSettings); err != nil {
+		// if no tls settings provided in config, leave zero value
+		tlsSettings = configtls.ClientConfig{}
+	}
 
 	pollInterval := viper.GetDuration("receivers.dynatrace.poll_interval")
 	if pollInterval <= 0 {
@@ -87,6 +93,7 @@ func main() {
 		PollInterval:    pollInterval,
 		HTTPTimeout:     httpTimeout,
 		MaxRetries:      maxRetries,
+		TLSSettings:     tlsSettings, // added to test TLS settings in test client
 	}
 
 	receiver := &dynatracereceiver.Receiver{

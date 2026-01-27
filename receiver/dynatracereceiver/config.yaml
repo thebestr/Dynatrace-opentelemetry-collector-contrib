@@ -18,6 +18,8 @@ receivers:
     poll_interval: 30s 
     max_retries: 3
     http_timeout: 10s
+    tls_settings:
+      insecure_skip_verify: true # added to skip TLS verification when dealing with self-signed certificates
 
 exporters:
   # otlphttp:

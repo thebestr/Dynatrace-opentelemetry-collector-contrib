@@ -46,6 +46,8 @@ receivers:
     poll_interval: 30s
     max_retries: 3
     http_timeout: 10s
+    tls_settings:
+      insecure_skip_verify: false # you can set this to true to handle self-signed certificates 
 
 processors:
   batch:

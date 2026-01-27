@@ -7,6 +7,7 @@ import (
 	"go.opentelemetry.io/collector/component"
 	"go.opentelemetry.io/collector/consumer"
 	"go.opentelemetry.io/collector/receiver"
+	"go.opentelemetry.io/collector/config/configtls"
 )
 
 const TypeStr = "dynatrace"
@@ -30,6 +31,7 @@ func createDefaultConfig() component.Config {
 		PollInterval:    30 * time.Second,
 		MaxRetries:      3,
 		HTTPTimeout:     5 * time.Second,
+		TLSSettings:     configtls.ClientConfig{InsecureSkipVerify: false}, // By default, do not skip TLS verification. Users can override this in their config to handle self-signed certificates.
 	}
 }
 

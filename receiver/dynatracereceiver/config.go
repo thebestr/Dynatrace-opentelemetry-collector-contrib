@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"go.opentelemetry.io/collector/component"
+
+	"go.opentelemetry.io/collector/config/configtls"
 )
 
 type Config struct {
@@ -18,4 +20,5 @@ type Config struct {
 	PollInterval    time.Duration `mapstructure:"poll_interval"`
 	MaxRetries      int           `mapstructure:"max_retries"`
 	HTTPTimeout     time.Duration `mapstructure:"http_timeout"`
+	TLSSettings     configtls.ClientConfig `mapstructure:"tls_settings"` // Added TLS settings to handle self-signed certificates
 }
